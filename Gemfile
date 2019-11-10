@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails',        '5.1.6'
+gem 'bootstrap-sass', '3.3.7'
+# カスタムCSSルールとBootstrapを組み合わせる。
+# Bootstrapを使うことでアプリケーションをレスポンシブデザインにできる
 gem 'puma',         '3.9.1'
 gem 'sass-rails',   '5.0.6'
 gem 'uglifier',     '3.2.0'

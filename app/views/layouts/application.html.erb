@@ -1,17 +1,18 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <%# HTML5であることを宣言する %>
 <html>
   <head>
-    <title><%= yield(:title) %> | Ruby on Rails Tutorial Sample App</title>
-    <%= csrf_meta_tags %> 
-    <%# クロスサイトリクエストフォージュリを防ぐために使われるRailsメソッド %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <title><%= full_title(yield(:title)) %></title>
+    <%= render 'layouts/rails_default' %>
+    <%= render 'layouts/shim' %>
   </head>
 
   <body>
-    <%= yield %>
-    <%# 各ページの内容をレイアウトに挿入する。URLとビューをつなぐ。
+    <%= render 'layouts/header' %>
+    <div class="container">
+      <%= yield %>
+      <%# 各ページの内容をレイアウトに挿入するため、application.htmlで定義している。URLとビューをつなぐ。
         例えば/static_pages/homeにアクセスするとhome.html.erbの内容がHTMLに変換され、yieldの位置に挿入されるって感じ %>
+      <%= render 'layouts/footer' %>
+    </div>
   </body>
 </html>

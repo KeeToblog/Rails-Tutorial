@@ -1,0 +1,15 @@
+    <header class="navbar navbar-fixed-top navbar-inverse">
+    <%# navbar-fixed-topでBootstrapはナビゲーションバーをページ上部に固定する %>  
+      <div class="container">
+        <%= link_to "sample app", root_path, id: "logo" %>
+        <nav>
+          <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Home",   root_path %></li>
+            <li><%= link_to "Help",   help_path %></li>
+            <li><%= link_to "Log in", '#' %></li>
+          </ul>
+          <%# クラスのnav, navbar, navbar-nav, navbar-right, containerはBootstrapのCSSを追加したときを見越している。
+          自動的にスタイルが適用されるようになる %>
+        </nav>
+      </div>
+    </header>

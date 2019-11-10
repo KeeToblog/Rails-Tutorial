@@ -1,0 +1,14 @@
+<footer class="footer">
+  <small>
+    The <a href="https://railstutorial.jp/">Ruby on Rails Tutorial</a>
+    by <a href="http://www.michaelhartl.com/">Michael Hartl</a>
+  </small>
+  <nav>
+    <ul>
+      <li><%= link_to "About",   about_path %></li>
+      <li><%= link_to "Contact", contact_path %></li>
+      <%# about_path, contact_pathはconfig/routesで名前付きルートを定義したので使える %>
+      <li><a href="http://news.railstutorial.org/">News</a></li>
+    </ul>
+  </nav>
+</footer>
