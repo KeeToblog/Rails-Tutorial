@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails',        '5.1.6'
+gem 'gravtastic'
+# Gravatarでプロフィール写真をアップし、指定のメルアドと関連付けができる。
 gem 'bcrypt',         '3.1.12'
 # パスワードを適切にハッシュ化（データを不可逆化）してパスワードなどが漏洩してもログインできないようにする。
 gem 'bootstrap-sass', '3.3.7'

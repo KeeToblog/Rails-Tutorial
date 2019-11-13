@@ -9,10 +9,16 @@
   <body>
     <%= render 'layouts/header' %>
     <div class="container">
+      <% flash.each do |message_type, message| %>
+        <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+        <%# content_tagヘルパ＾を使っている。 %>
+      <% end %>
       <%= yield %>
       <%# 各ページの内容をレイアウトに挿入するため、application.htmlで定義している。URLとビューをつなぐ。
         例えば/static_pages/homeにアクセスするとhome.html.erbの内容がHTMLに変換され、yieldの位置に挿入されるって感じ %>
       <%= render 'layouts/footer' %>
+      <%= debug(params) if Rails.env.development? %>
+      <%# 各ページにデバック用の表示がされるようになり、Railsの３つのデフォルト環境のうち、開発環境（development）だけで表示される %>
     </div>
   </body>
 </html>
