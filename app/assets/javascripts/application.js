@@ -9,7 +9,12 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
+// ヘッダーのドロップダウン機能を有効にするために、require jqueryとrequire bootstrapを記載した。
+// Bootstrapに同包されているJavaScriptライブラリとjQueryを読み込むようにアセットパイプラインに支持する。
+// ここの設定をミスるとドロップダウン機能がはたらかなくなる。
 //
 //= require rails-ujs
+//= require jquery
+//= require bootstrap
 //= require turbolinks
 //= require_tree .

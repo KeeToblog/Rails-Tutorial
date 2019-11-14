@@ -26,20 +26,25 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
   
 # ユーザー登録成功時のテスト
     test "valid signup information" do
-    get signup_path #/signupページを表示する
-    assert_difference 'User.count', 1 do #ブロック内の処理の実行前後のUser.countの値を比較する。
+    get signup_path 
+    # /signupページを表示する
+    assert_difference 'User.count', 1 do 
+    # ブロック内の処理の実行前後のUser.countの値を比較する。assert_differenceメソッドでは第二引数にメソッド実行後の差異（１）を渡す。ユーザー登録が成功すればUser.countが１増えるから。
       post users_path, params: { user: { name:  "Example User",
                                          email: "user@example.com",
                                          password:              "password",
                                          password_confirmation: "password" } }
     end
-    # usersコントローラーのcreateアクションをparamsを引用して実行する。
+    # usersコントローラーのcreateアクションをparams（有効なユーザー情報）を引用してPOSTする。
     follow_redirect!
+    # POSTリクエストを送信する（リダイレクト）
     assert_template 'users/show' 
-    #POSTリクエストを送信した結果を見て/users/showに飛ばす。Userのshowアクション、show.html.erbが正しく動かないとこのテストは成功しない。
+    # POSTリクエストを送信した結果を見て/users/showに飛ばす。Userのshowアクション、show.html.erbが正しく動かないとこのテストは成功しない。
     assert_not flash.empty?
     # flashが空ならfalse、埋まっていればtrueを返す。
+    assert is_logged_in?
+    # testヘルパーの確認。ユーザー登録の終わったユーザーがログイン状態になっているか確認する。
   end
-  # assert_differenceメソッドでは第二引数にメソッド実行後の差異（１）を渡す。ユーザー登録が成功すればUser.countが１増えるから。
+
   
 end

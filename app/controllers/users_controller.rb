@@ -13,6 +13,7 @@ class UsersController < ApplicationController
      @user = User.new(user_params)
     # user_paramsはparams[:user]の代わりに使える外部メソッドで、適切に初期化したハッシュを返す。
     if @user.save
+      log_in @user
       flash[:success] = "Welcome to the Sample App!"
       redirect_to @user # redirect_to user_url(@user)と等価
     else
