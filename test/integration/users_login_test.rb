@@ -31,6 +31,9 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     delete logout_path
     assert_not is_logged_in?
     assert_redirected_to root_url
+    
+    # 2番目のウィンドウでログアウトをクリックするユーザーをシミュレートする
+    delete logout_path
     follow_redirect!
     assert_select "a[href=?]", login_path
     assert_select "a[href=?]", logout_path,      count: 0
@@ -56,4 +59,25 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert flash.empty?
     # フラッシュメッセージが空ならtrue, 表示されればfalseを返す。
   end
+  
+  # remember_meのチェックボックスがオンになっている場合のテスト
+  test "login with remembering" do
+    log_in_as(@user, remember_me: '1')
+    # '1'なのでチェックボックスはオンにして、ログインする。
+    assert_not_empty cookies['remember_token']
+    # cookiesの値が記憶トークンと一致する（cookiesが空でない）ならtrue, 一致しない(cookiesが空)ならfalseを返す。
+  end
+  
+  
+  # remember_meのチェックボックスがオフになっている場合のテスト
+  test "login without remembering" do
+    # クッキーを保存してログイン
+    log_in_as(@user, remember_me: '1')
+    delete logout_path
+    # クッキーを削除してログイン
+    log_in_as(@user, remember_me: '0')
+    assert_empty cookies['remember_token']
+  end
+  
+  
 end

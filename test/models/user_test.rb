@@ -90,4 +90,11 @@ class UserTest < ActiveSupport::TestCase
   # パスワードとパスワード確認に対して同時に代入している。
   # 5文字だと弾かれる。
   
+  
+  # 記憶ダイジェストが存在しない場合のauthenticated?のテスト
+  test "authenticated? should return false for a user with nil digest" do
+    assert_not @user.authenticated?('')
+  end
+  # authenticated?('')メソッド（記憶トークンが空）が真ならfalse, 偽ならtrueを返す（テストをパスする）。
+  
 end
