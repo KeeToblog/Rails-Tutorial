@@ -5,6 +5,12 @@ gem 'gravtastic'
 # Gravatarでプロフィール写真をアップし、指定のメルアドと関連付けができる。
 gem 'bcrypt',         '3.1.12'
 # パスワードを適切にハッシュ化（データを不可逆化）してパスワードなどが漏洩してもログインできないようにする。
+gem 'faker',          '1.7.3'
+# ダミーユーザーをつくるgem。普通は開発環境以外では使わない。
+gem 'will_paginate',           '3.1.6'
+# ページネーション（１ページに適当な数だけユーザーを表示する）機能を付与する
+gem 'bootstrap-will_paginate', '1.0.0'
+# Bootstrapのページネーションスタイルを使ってwill_pagenateを構成する。
 gem 'bootstrap-sass', '3.3.7'
 # カスタムCSSルールとBootstrapを組み合わせる。
 # Bootstrapを使うことでアプリケーションをレスポンシブデザインにできる

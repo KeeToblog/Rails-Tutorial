@@ -16,6 +16,13 @@ module SessionsHelper
   # またユーザーIDと記憶トークンはペアで扱う必要があるためcookieを永続化する。
   
   
+  # 渡されたユーザーがログイン済みユーザーであればtrueを返す
+  def current_user?(user)
+    user == current_user
+  end
+  # current_user?メソッドに渡された引数userが現在ログインしているユーザーあればtrue
+  
+  
   # 現在ログイン中のユーザーを返す (いる場合)
   def current_user
     if session[:user_id]
@@ -83,5 +90,23 @@ module SessionsHelper
     @current_user = nil
     # 現在のユーザーをnilにするs
   end
+  
+  
+  # 記憶したURL (もしくはデフォルト値) にリダイレクト
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    # リクエストされたURLが存在すればそこにリダイレクト、なければデフォルトのURLにリダイレクト
+    # デフォルトのURLは、Sessionコントローラーのcreateアクションに追加し、サインイン成功後にリダイレクトする。
+    session.delete(:forwarding_url)
+    # 転送用のURLを削除する。次回ログインしたときに保護されたページに転送されてしまう。
+  end
+
+  # アクセスしようとしたURLを覚えておく
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
+  end
+  # GETリクエストが送られたときだけ、リクエスト先のURLを：forwading＿urlに格納する。POSTやPATCHやDELETリクエストは受け付けない。
+  
+  
   
 end

@@ -21,7 +21,9 @@ class SessionsController < ApplicationController
       # else
       #   forget(user)
       # end
-      redirect_to user
+      redirect_back_or user
+      # userの前のページもしくはdefault(user)にリダイレクト
+    # redirect_to user
       #redirect_to user_url(user)と同じ。/users/:idにリダイレクトする。
     else
      flash.now[:danger] = 'Invalid email/password combination' 
