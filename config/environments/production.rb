@@ -65,7 +65,23 @@ Rails.application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+   config.action_mailer.raise_delivery_errors = true
+   
+  # SendGridアドオンを使うには、本番環境のSMTPに情報を記入する必要がある
+  config.action_mailer.delivery_method = :smtp
+  host = 'https://hidden-fjord-35148.herokuapp.com'
+  config.action_mailer.default_url_options = { host: host }
+  ActionMailer::Base.smtp_settings = {
+    :address        => 'smtp.sendgrid.net',
+    :port           => '587',
+    :authentication => :plain,
+    :user_name      => ENV['SENDGRID_USERNAME'],
+    :password       => ENV['SENDGRID_PASSWORD'],
+    :domain         => 'heroku.com',
+    :enable_starttls_auto => true
+  }
+  # user_nameとpasswordのハッシュに実際の値を記入しない。ソースコードに直接機密情報を書き込まない。
+  # 環境変数「ENV」に記述し、そこからアプリケーションに読み込む
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

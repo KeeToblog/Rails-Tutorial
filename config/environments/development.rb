@@ -25,9 +25,21 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
+  
+  
+  
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+  # Tell Action Mailer not to deliver emails to the real world.
+  # The :test delivery method accumulates sent emails in the
+  # ActionMailer::Base.deliveries array.
+  config.action_mailer.delivery_method = :test
+  # ホスト名の部分は、各自のdevelopment環境に合わせて変更する
+  host = 'us-east-2.console.aws.amazon.com'
+  config.action_mailer.default_url_options = { host: host, protocol: 'https' }
+  
+  
 
   config.action_mailer.perform_caching = false
 

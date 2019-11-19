@@ -50,7 +50,7 @@ module SessionsHelper
     # user_idを暗号化した永続的なユーザーがいる（cookiesがある）場合処理を行い、user_idに代入
       user = User.find_by(id: user_id)                                          
       # 暗号化したユーザーidと同じユーザーidをもつユーザーをDBから探し、userに代入
-      if user && user.authenticated?(cookies[:remember_token])                  
+      if user && user.authenticated?(:remember, cookies[:remember_token])               
         # DBのユーザーがいるかつ、受け取った記憶トークンをハッシュ化した記憶ダイジェストを持つユーザーがいる場合処理を行う
         log_in user                                                             
         # 一致したユーザーでログインする

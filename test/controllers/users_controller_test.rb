@@ -5,6 +5,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user       = users(:michael)
     @other_user = users(:archer)
+    @non_activated_user = users(:non_activated)
   end
   
   # indexアクションのリダイレクトをテストする
@@ -89,6 +90,23 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to root_url
     # root_url(/)、つまりホーム画面にリダイレクトする
+  end
+  
+  
+  # 非有効化ユーザーはユーザー一覧ページ(/users)に表示しない
+  test "should not allow the not activated attribute" do
+    log_in_as(@non_activated_user)
+    # 非有効化ユーザーでログインする
+  #  assert_not @non_activated_user.activated?
+    # 有効化されていたらfalse,有効化されていなかったらtrueを返す
+    get users_path
+    # users_path(/users)を取得する
+    assert_select "a[href=?]", user_path(@non_activated_user), count: 0
+    # 非有効化ユーザーの情報ページ(/users/:id)へのリンクが表示されないことを確認
+    get user_path(@non_activated_user)
+    # 非有効化ユーザーの情報ページ(/users/:id)を取得する
+    assert_redirected_to root_url
+    # 有効化されていないので、root_urlへリダイレクトされるはず
   end
 
 end

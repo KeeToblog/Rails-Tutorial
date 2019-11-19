@@ -1,0 +1,8 @@
+Hi <%= @user.name %>,
+
+Welcome to the Sample App! Click on the link below to activate your account:
+
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
+<%# 名前付きルートをurlで渡すことで絶対パス(http://~)を指定してメールから飛べるようにする %>
+<%# 引数として有効化トークン(@user.activation_token)を使う %>
+<%# email: @user.emailをクエリパラメーターとして設定。こうしてRailsが自動でエスケープ（通常URLで扱えない文字を扱えるように変換する）してくれる。 %>

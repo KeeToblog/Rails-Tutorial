@@ -6,29 +6,35 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: :destroy
   
   
-  # indexアクションでUsersをページネートする
+  # indexアクションでUsersをページネートする。有効化されたユーザーのみ表示する。
   def index
     @users = User.paginate(page: params[:page])
   end
   
-  
+  # 有効化された各ユーザーの情報ページ(/users/:id)のみ表示する。
   def show
     @user = User.find(params[:id])
+    # paramsで:idを受け取り、@userに代入する
+    redirect_to root_url and return unless @user.activated?
+    # ユーザーが有効化されていなかったら(adctivatedがfalseなら)、root_urlへリダイレクトする
   end
   
   def new
     @user = User.new
   end
   
-  # 新規ユーザーを登録するときform_forメソッドによってここにPOSTされる。
+  # 新規ユーザーを登録するときform_forメソッドによってここにPOSTされる。アカウント有効化も要求する
   def create
      # @user = User.new(params[:user])
      @user = User.new(user_params)
     # user_paramsはparams[:user]の代わりに使える外部メソッドで、適切に初期化したハッシュを返す。
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user # redirect_to user_url(@user)と等価
+      @user.send_activation_email
+      # 入力されたメルアド宛に有効化のためのメッセージを送信（モデルに移動してリファクタリングした）
+      flash[:info] = "Please check your email to activate your account."
+      # flashメッセージが表示される
+      redirect_to root_url
+      # ホームページへリダイレクトする
     else
       render 'new'
     end
