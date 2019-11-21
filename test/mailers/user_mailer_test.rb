@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
-
+  
+  # アカウント有効化用メイラーメソッドのテスト
   test "account_activation" do
     user = users(:michael)
     # fixtureユーザー（michael）をuserに代入
@@ -19,4 +20,25 @@ class UserMailerTest < ActionMailer::TestCase
     # CGI.escape(user.email)でテスト用のユーザーのメルアドもエスケープできる
   end
   # assert_matchメソッドは正規表現での文字列の一致もテストできる。
+  
+  
+  # パスワード再設定用メイラーメソッドのテスト
+  test "password_reset" do
+    user = users(:michael)
+    # michaelをローカル変数(user)に代入する
+    user.reset_token = User.new_token
+    # リセットトークンをmichaelに追加する
+    mail = UserMailer.password_reset(user)
+    # UserMailerクラスのpassword_reset(user)メソッドをmail属性に代入する
+    assert_equal "Password reset", mail.subject
+    # mailのタイトルがPassword resetと一致する
+    assert_equal [user.email], mail.to
+    assert_equal ["noreply@example.com"], mail.from
+    assert_match user.reset_token,        mail.body.encoded
+    assert_match CGI.escape(user.email),  mail.body.encoded
+    # CGI.escape(user.email)でテスト用のユーザーのメルアドもエスケープできる
+  end
+  
+  
+  
 end

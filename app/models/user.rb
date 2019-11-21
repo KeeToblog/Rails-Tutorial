@@ -1,7 +1,7 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
   # attr_accessorメソッドで「仮想の」属性を作成する。データを取り出すメソッド(getter)と、データに代入するメソッド(setter)をそれぞれ定義してくれる。
-  # 具体的にはこの行の実行により、インスタンス変数@remember_tokenにアクセスするためのメソッドが用意される。
+  # 具体的にはこの行の実行により、インスタンス変数にアクセスするためのメソッドが用意される。
   # 後述するemail, remember_tokenメソッドも「仮想の」ローカル変数ではないので、selfをつける。
   before_create :create_activation_digest
   # ユーザーが新規登録する前に、有効化ダイジェストを作成する
@@ -67,7 +67,7 @@ class User < ApplicationRecord
 #  end
   # BCryptで記憶ダイジェストを暗号化（ハッシュ化）し、渡された記憶トークンと比較する（authenticated?メソッド）。一致したらtrueを返す。
   # remember_tokenは、authenticated?メソッドのローカル変数。is_password?の引数はそれを参照する。
-  # remember_digestの属性はDBのカラムに対応しており、ActiveRecordniyotte簡単に取得・保存できる。
+  # remember_digestの属性はDBのカラムに対応しており、ActiveRecordによって簡単に取得・保存できる。
   
   
   # ユーザーのログイン情報を破棄する
@@ -99,6 +99,32 @@ class User < ApplicationRecord
     UserMailer.account_activation(self).deliver_now
   end
   # UserMailerを使って入力されたメルアド宛にアカウント有効化のメッセージを送信
+  
+  
+  # パスワード再設定の属性を設定する
+  def create_reset_digest
+    self.reset_token = User.new_token
+    # 64種類の文字列からなる長さが22のランダムな文字列をリセットトークンに代入する。
+    update_columns(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)
+    #update_attribute(:reset_digest,  User.digest(reset_token))
+    # User.digestをパスワード再設定用トークン(reset_token)に適用し、riset_digest属性に代入して、更新と保存を行う。
+    #update_attribute(:reset_sent_at, Time.zone.now)
+    # タイムスタンプで時間属性(reset_sent_at)も更新・保存する
+  end
+
+  # パスワード再設定のメールを送信する
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+  
+  
+  # パスワード再設定の期限が切れている場合はtrueを返す
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+    # パスワード再設定時刻が現在時刻よりも２時間以上前
+  end
+  # 現在時刻より２時間以上離れたら有効期限が切れる
+  
   
   private
   # ユーザーモデル内でしか使わない
