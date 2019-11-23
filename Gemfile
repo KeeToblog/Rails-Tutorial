@@ -5,8 +5,14 @@ gem 'gravtastic'
 # Gravatarでプロフィール写真をアップし、指定のメルアドと関連付けができる。
 gem 'bcrypt',         '3.1.12'
 # パスワードを適切にハッシュ化（データを不可逆化）してパスワードなどが漏洩してもログインできないようにする。
+gem 'faker-okinawa'
+# 沖縄っぽい言葉をつくるgem
 gem 'faker',          '1.7.3'
 # ダミーユーザーをつくるgem。普通は開発環境以外では使わない。
+gem 'carrierwave',             '1.2.2'
+# 投稿した画像を暑かったり、その画像をMicropostモデルと関連付ける
+gem 'mini_magick',             '4.7.0'
+# 画像をリサイズする
 gem 'will_paginate',           '3.1.6'
 # ページネーション（１ページに適当な数だけユーザーを表示する）機能を付与する
 gem 'bootstrap-will_paginate', '1.0.0'
@@ -46,8 +52,11 @@ end
 
 group :production do
   gem 'pg', '0.20.0'
+  # 本番環境ではpg(PostgreSQLデータベースを使う)
+  gem 'fog', '1.42'
+  # 画像をアップロードする
 end
-# 本番環境ではpg(PostgreSQLデータベースを使う)
+
 
 # Windows環境ではtzinfo-dataというgemを含める必要があります
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

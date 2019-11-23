@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy
+  # 「１対多」の「1」側にhas_manyコードを書く。
+  # オプションにdestroyを渡すとユーザーが削除されたときに、そのユーザーに紐づいたマイクロポストも削除される
   attr_accessor :remember_token, :activation_token, :reset_token
   # attr_accessorメソッドで「仮想の」属性を作成する。データを取り出すメソッド(getter)と、データに代入するメソッド(setter)をそれぞれ定義してくれる。
   # 具体的にはこの行の実行により、インスタンス変数にアクセスするためのメソッドが用意される。
@@ -124,6 +127,15 @@ class User < ApplicationRecord
     # パスワード再設定時刻が現在時刻よりも２時間以上前
   end
   # 現在時刻より２時間以上離れたら有効期限が切れる
+  
+  
+  # 試作feedの定義
+  # 完全な実装は次章の「ユーザーをフォローする」を参照
+  def feed
+    Micropost.where("user_id = ?", id)
+    # ?があることで、SQLクエリに代入する前にidがエスケープされるため、SQLインジェクションと呼ばれる深刻なセキュリティホールを避けられる。
+    # SQL文に変数を代入する場合は常にエスケープする
+  end
   
   
   private

@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     # paramsで:idを受け取り、@userに代入する
+    @microposts = @user.microposts.paginate(page: params[:page])
     redirect_to root_url and return unless @user.activated?
     # ユーザーが有効化されていなかったら(adctivatedがfalseなら)、root_urlへリダイレクトする
   end
@@ -63,7 +64,7 @@ class UsersController < ApplicationController
   end
   
   
-  # 実際に動作するdestroyアクションを追加する
+  # 実際に動��するdestroyアクションを追加する
   def destroy
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
@@ -78,19 +79,6 @@ class UsersController < ApplicationController
             params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
     # ストロングパラメーターを使うことで、必須のパラメータと許可されたパラメーターを指定できる。
-    
-    
-    # ログイン済みユーザーかどうか確認
-    def logged_in_user
-      unless logged_in?
-      # ログインしていればfalse, ログインしていなければtrueを返す。
-        store_location
-        flash[:danger] = "Please log in."
-        # ログイン要求のflashメッセージを表示
-        redirect_to login_url
-        # ログインページ(/login)へ飛ばす。
-      end
-    end
     
     
     # 正しいユーザーかどうか確認

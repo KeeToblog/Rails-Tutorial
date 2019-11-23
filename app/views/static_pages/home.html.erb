@@ -1,21 +1,11 @@
-<%# 「%...%」を使う記法はRailsのメソッドを実行するだけ。出力はしない%>
-<%# 「%= ...%」のように等号を追加するとコードの実行結果が反映される。%>
-<div class="center jumbotron">
-  <h1>Welcome to the Sample App</h1>
+<% if logged_in? %>
 
-  <h2>
-    This is the home page for the
-    <a href="https://railstutorial.jp/">Ruby on Rails Tutorial</a>
-    sample application.
-  </h2>
+  <%= render 'static_pages/if' %>
+  <%# ifパーシャル使用 %>
 
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-</div>
-<%# jumbotron, btn, btn-lg, btn-primaryクラスもBootshtapのCSSの使用を見越しているから %>
+<% else %>
 
-<%= link_to image_tag("rails.png", alt: "Rails logo"),
-            'http://rubyonrails.org/' %>
-<%#= link_to image_tag("kitten.jpg", alt: "cat_image"),
-            "#" %>
-<%# image_tagヘルパーにより、Railsは該当する画像ファイルをアセットパイプラインを通して
-app/assets/images/ディレクトリの中から探してくれる。%>
+  <%= render 'static_pages/else' %>
+  <%# elseパーシャル使用 %>
+
+<% end %>

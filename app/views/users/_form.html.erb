@@ -1,5 +1,5 @@
     <%= form_for(@user) do |f| %>
-      <%= render 'shared/error_messages', object: @user %>
+      <%= render 'shared/error_messages', object: f.object %>
       <%# objectをで渡された変数は参照先でeachされてる必要がある %>
 
       <%= f.label :name %>

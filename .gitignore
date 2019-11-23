@@ -27,3 +27,7 @@
 # Ignore Spring files.
 # Guard使用時のSpringとGitの競合を防ぐ。
 /spring/*.pid
+
+
+# アップロードされたテスト画像を無視する
+/public/uploads
