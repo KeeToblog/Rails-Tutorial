@@ -108,5 +108,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
     # 有効化されていないので、root_urlへリダイレクトされるはず
   end
+  
+  
+  # 
+  test "should redirect following when not logged in" do
+    get following_user_path(@user)
+    # michaelがフォローしてるユーザー群のページ(/users/:id/following)を取得する
+    assert_redirected_to login_url
+    # loginページ(/login)へリダイレクトする
+  end
+
+  test "should redirect followers when not logged in" do
+    get followers_user_path(@user)
+    # michaelをフォローしてる、つまりmichaelのフォロワー情報ページ(/users/:id/followers)を取得する
+    assert_redirected_to login_url
+    # loginページ(/login)へリダイレクトする
+  end
 
 end

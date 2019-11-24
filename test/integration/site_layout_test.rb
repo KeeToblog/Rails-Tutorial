@@ -38,4 +38,18 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", edit_user_path(@user)
     assert_select "a[href=?]", logout_path
   end
+  
+  # Homeページに統計情報が正しく入力されているかのテスト
+  test "count relationships" do
+    log_in_as(@user)
+    # michaelでログインする
+    get root_path
+    # Homeページを取得する
+    assert_match @user.active_relationships.count.to_s, response.body
+    # Homeページのどこかしらにmichaelがフォローしているユーザーの数が確認できる
+    assert_match @user.passive_relationships.count.to_s, response.body
+    # Homeページのどこかしらにmichaelをフォローしているユーザーの数が確認できる
+  end
+  
+  
 end

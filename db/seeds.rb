@@ -30,3 +30,15 @@ users = User.order(:created_at).take(6)
   content = Faker::Lorem.sentence(5)
   users.each { |user| user.microposts.create!(content: content) }
 end
+
+
+
+# サンプルデータにfollowing/followerの関係性を追加する
+users = User.all
+user  = users.first
+following = users[2..50]
+followers = users[3..40]
+following.each { |followed| user.follow(followed) }
+# 最初のユーザーがユーザーID3~51のユーザーをフォローする
+followers.each { |follower| follower.follow(user) }
+# ユーザーID4~41のユーザーが最初のユーザーをフォローする

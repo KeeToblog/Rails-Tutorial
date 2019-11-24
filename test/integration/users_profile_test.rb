@@ -21,6 +21,8 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     # 見出し(h1)にgravetarクラス付きのimaタグがあるか確認する
     assert_match @user.microposts.count.to_s, response.body
     # ユーザーのマイクロポストの投稿数が存在すれば、探し出してマッチするか確認する。response.bodyにはそのページの完全なHTMLが含まれている。
+    assert_match @user.active_relationships.count.to_s, response.body
+    assert_match @user.passive_relationships.count.to_s, response.body
     assert_select 'div.pagination', count: 1
     # divタグにpaginationが１つあるか確認する
     @user.microposts.paginate(page: 1).each do |micropost|
