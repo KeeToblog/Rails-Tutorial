@@ -9,7 +9,7 @@ gem 'faker-okinawa'
 # 沖縄っぽい言葉をつくるgem
 gem 'faker',          '1.7.3'
 # ダミーユーザーをつくるgem。普通は開発環境以外では使わない。
-gem 'carrierwave',             '1.2.2'
+gem 'carrierwave',             '1.3.2'
 # 投稿した画像を暑かったり、その画像をMicropostモデルと関連付ける
 gem 'mini_magick',             '4.7.0'
 # 画像をリサイズする
